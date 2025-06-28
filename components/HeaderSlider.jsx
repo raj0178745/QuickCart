@@ -6,27 +6,30 @@ const HeaderSlider = () => {
   const sliderData = [
     {
       id: 1,
-      title: "Experience Pure Sound - Your Perfect Headphones Awaits!",
+      title: "Discover Your Style - Fashion That Speaks to You!",
       offer: "Limited Time Offer 30% Off",
-      buttonText1: "Buy now",
-      buttonText2: "Find more",
-      imgSrc: assets.header_headphone_image,
+      buttonText1: "Shop Now",
+      buttonText2: "Explore",
+      imgSrc:
+        "https://images.pexels.com/photos/1055691/pexels-photo-1055691.jpeg",
     },
     {
       id: 2,
-      title: "Next-Level Gaming Starts Here - Discover PlayStation 5 Today!",
-      offer: "Hurry up only few lefts!",
-      buttonText1: "Shop Now",
-      buttonText2: "Explore Deals",
-      imgSrc: assets.header_playstation_image,
+      title: "Comfort Meets Style - Perfect Everyday Wear!",
+      offer: "New Collection Available!",
+      buttonText1: "Discover",
+      buttonText2: "View More",
+      imgSrc:
+        "https://images.pexels.com/photos/32717996/pexels-photo-32717996.jpeg",
     },
     {
       id: 3,
-      title: "Power Meets Elegance - Apple MacBook Pro is Here for you!",
-      offer: "Exclusive Deal 40% Off",
-      buttonText1: "Order Now",
+      title: "Timeless Fashion - Quality That Lasts Forever!",
+      offer: "Exclusive Deal 25% Off",
+      buttonText1: "Shop Collection",
       buttonText2: "Learn More",
-      imgSrc: assets.header_macbook_image,
+      imgSrc:
+        "https://images.pexels.com/photos/32753087/pexels-photo-32753087.jpeg",
     },
   ];
 
@@ -54,28 +57,34 @@ const HeaderSlider = () => {
         {sliderData.map((slide, index) => (
           <div
             key={slide.id}
-            className="flex flex-col-reverse md:flex-row items-center justify-between bg-[#E6E9F2] py-8 md:px-14 px-5 mt-6 rounded-xl min-w-full"
+            className="flex flex-col-reverse md:flex-row items-center justify-between bg-[#F8F4F0] py-8 md:px-14 px-5 mt-6 rounded-xl min-w-full"
           >
             <div className="md:pl-8 mt-10 md:mt-0">
-              <p className="md:text-base text-orange-600 pb-1">{slide.offer}</p>
+              <p className="md:text-base text-pink-600 pb-1">{slide.offer}</p>
               <h1 className="max-w-lg md:text-[40px] md:leading-[48px] text-2xl font-semibold">
                 {slide.title}
               </h1>
               <div className="flex items-center mt-4 md:mt-6 ">
-                <button className="md:px-10 px-7 md:py-2.5 py-2 bg-orange-600 rounded-full text-white font-medium">
+                <button className="md:px-10 px-7 md:py-2.5 py-2 bg-pink-600 rounded-full text-white font-medium">
                   {slide.buttonText1}
                 </button>
                 <button className="group flex items-center gap-2 px-6 py-2.5 font-medium">
                   {slide.buttonText2}
-                  <Image className="group-hover:translate-x-1 transition" src={assets.arrow_icon} alt="arrow_icon" />
+                  <Image
+                    className="group-hover:translate-x-1 transition"
+                    src={assets.arrow_icon}
+                    alt="arrow_icon"
+                  />
                 </button>
               </div>
             </div>
             <div className="flex items-center flex-1 justify-center">
               <Image
-                className="md:w-72 w-48"
+                className="md:w-72 w-48 rounded-lg object-cover"
                 src={slide.imgSrc}
                 alt={`Slide ${index + 1}`}
+                width={300}
+                height={400}
               />
             </div>
           </div>
@@ -88,7 +97,7 @@ const HeaderSlider = () => {
             key={index}
             onClick={() => handleSlideChange(index)}
             className={`h-2 w-2 rounded-full cursor-pointer ${
-              currentSlide === index ? "bg-orange-600" : "bg-gray-500/30"
+              currentSlide === index ? "bg-pink-600" : "bg-gray-500/30"
             }`}
           ></div>
         ))}

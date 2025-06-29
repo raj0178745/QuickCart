@@ -33,19 +33,31 @@ INNGEST_EVENT_KEY=your_event_key
 
 ## Quick Start
 
-1. Copy `.env` file and add your Clerk keys
-2. Run `npm install` to install dependencies
-3. Run `npm run dev` to start the development server
-4. Visit `http://localhost:3000`
+1. **Without Authentication** (works immediately):
+   - Run `npm run dev` to start the development server
+   - Visit `http://localhost:3000`
+   - All e-commerce features work except user authentication
+
+2. **With Full Authentication** (requires Clerk setup):
+   - Add Clerk keys to your `.env` file (see above)
+   - Restart the dev server
+   - Full authentication and user features will be enabled
 
 ## Features Now Working
 
-✅ **Authentication**: Sign up and login with Clerk
+✅ **E-Commerce Core**: Browse products, add to cart, checkout (works without auth)
 ✅ **Cart Functionality**: Add to cart, view cart, update quantities
-✅ **Seller Dashboard**: Add products (with form validation)
-✅ **API Endpoints**: RESTful API for products, cart, orders
-✅ **Order Placement**: Complete order flow with address selection
+✅ **Product Pages**: Detailed product views with add to cart
+✅ **About & Contact Pages**: Complete informational pages
 ✅ **Responsive Design**: Works on mobile and desktop
+✅ **Error Handling**: Graceful fallbacks when auth is not configured
+
+### Features Requiring Authentication:
+
+- User sign up/login (requires Clerk)
+- Seller dashboard (requires Clerk)
+- Order history (requires Clerk)
+- Personalized features (requires Clerk)
 
 ## Testing the Application
 

@@ -6,23 +6,6 @@ import Link from "next/link";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isClerkAvailable, setIsClerkAvailable] = useState(true);
-
-  // Try to use Clerk, fallback to simple form if not available
-  React.useEffect(() => {
-    try {
-      // Check if Clerk is properly configured
-      if (
-        !process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ||
-        process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ===
-          "pk_test_Y29tcGFjdC1sb2JzdGVyLTE4LmNsZXJrLmFjY291bnRzLmRldiQ"
-      ) {
-        setIsClerkAvailable(false);
-      }
-    } catch (error) {
-      setIsClerkAvailable(false);
-    }
-  }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -32,35 +15,6 @@ const Login = () => {
     }, 1000);
   };
 
-  // If Clerk is available, try to use it
-  if (isClerkAvailable) {
-    try {
-      const { SignIn } = require("@clerk/nextjs");
-      return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
-          <div className="w-full max-w-md">
-            <SignIn
-              appearance={{
-                elements: {
-                  formButtonPrimary: "bg-orange-600 hover:bg-orange-700",
-                  card: "shadow-lg",
-                  headerTitle: "text-gray-800",
-                  headerSubtitle: "text-gray-600",
-                },
-              }}
-              routing="hash"
-              signUpUrl="/signup"
-              redirectUrl="/"
-            />
-          </div>
-        </div>
-      );
-    } catch (error) {
-      // Fallback to simple form
-    }
-  }
-
-  // Fallback login form
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md">

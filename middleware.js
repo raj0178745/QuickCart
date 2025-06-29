@@ -1,18 +1,17 @@
-import { NextResponse } from "next/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export function middleware(request) {
-  // Only handle specific protected routes when Clerk is configured
-  if (
-    !process.env.CLERK_SECRET_KEY ||
-    !process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-  ) {
-    // If Clerk is not configured, just pass through
-    return NextResponse.next();
+const isProtectedRoute = createRouteMatcher([
+  "/seller(.*)",
+  "/account(.*)",
+  "/my-orders(.*)",
+  "/add-address(.*)",
+]);
+
+export default clerkMiddleware((auth, req) => {
+  if (isProtectedRoute(req)) {
+    auth().protect();
   }
-
-  // For now, just pass through all requests to avoid server action errors
-  return NextResponse.next();
-}
+});
 
 export const config = {
   matcher: [

@@ -8,25 +8,6 @@ import Image from "next/image";
 const Navbar = () => {
   const { isSeller, router, getCartCount } = useAppContext();
 
-  // Safely import Clerk hooks
-  let isSignedIn = false;
-  let UserButton = null;
-  let SignInButton = null;
-
-  try {
-    const {
-      useUser,
-      SignInButton: ClerkSignInButton,
-      UserButton: ClerkUserButton,
-    } = require("@clerk/nextjs");
-    const { isSignedIn: clerkSignedIn } = useUser();
-    isSignedIn = clerkSignedIn;
-    UserButton = ClerkUserButton;
-    SignInButton = ClerkSignInButton;
-  } catch (error) {
-    console.log("Clerk not configured - authentication features disabled");
-  }
-
   return (
     <nav className="flex items-center justify-between px-6 md:px-16 lg:px-32 py-3 border-b border-gray-300 text-gray-700">
       <Image
@@ -49,11 +30,11 @@ const Navbar = () => {
           Contact
         </Link>
 
-        {isSignedIn && isSeller && (
-          <button
-            onClick={() => router.push("/seller")}
-            className="text-xs border px-4 py-1.5 rounded-full"
-          >
+        {isSeller && (
+          <button onClick={() => router.push('/seller')} className="text-xs border px-4 py-1.5 rounded-full">
+            Seller Dashboard
+          </button>
+        )}
             Seller Dashboard
           </button>
         )}
@@ -75,38 +56,13 @@ const Navbar = () => {
           )}
         </button>
 
-        {/* Authentication */}
-        {UserButton && SignInButton ? (
-          isSignedIn ? (
-            <UserButton
-              appearance={{
-                elements: {
-                  avatarBox: "w-8 h-8",
-                },
-              }}
-              userProfileMode="modal"
-            />
-          ) : (
-            <div className="flex items-center gap-2">
-              <SignInButton mode="modal">
-                <button className="flex items-center gap-2 hover:text-gray-900 transition">
-                  <Image src={assets.user_icon} alt="user icon" />
-                  Sign In
-                </button>
-              </SignInButton>
-            </div>
-          )
-        ) : (
-          <div className="flex items-center gap-2">
-            <Link
-              href="/account"
-              className="flex items-center gap-2 hover:text-gray-900 transition"
-            >
-              <Image src={assets.user_icon} alt="user icon" />
-              Account
-            </Link>
-          </div>
-        )}
+        {/* Account Link */}
+        <div className="flex items-center gap-2">
+          <Link href="/account" className="flex items-center gap-2 hover:text-gray-900 transition">
+            <Image src={assets.user_icon} alt="user icon" />
+            Account
+          </Link>
+        </div>
       </ul>
 
       <div className="flex items-center md:hidden gap-3">
@@ -123,37 +79,17 @@ const Navbar = () => {
           )}
         </button>
 
-        {isSignedIn && isSeller && (
-          <button
-            onClick={() => router.push("/seller")}
-            className="text-xs border px-4 py-1.5 rounded-full"
-          >
+        {isSeller && (
+          <button onClick={() => router.push('/seller')} className="text-xs border px-4 py-1.5 rounded-full">
             Seller Dashboard
           </button>
         )}
 
-        {/* Mobile Authentication */}
-        {UserButton && SignInButton ? (
-          isSignedIn ? (
-            <UserButton
-              appearance={{
-                elements: {
-                  avatarBox: "w-8 h-8",
-                },
-              }}
-              userProfileMode="modal"
-            />
-          ) : (
-            <SignInButton mode="modal">
-              <button className="flex items-center gap-2 hover:text-gray-900 transition">
-                <Image src={assets.user_icon} alt="user icon" />
-                Sign In
-              </button>
-            </SignInButton>
-          )
-        ) : (
-          <Link
-            href="/account"
+        {/* Mobile Account Link */}
+        <Link href="/account" className="flex items-center gap-2 hover:text-gray-900 transition">
+          <Image src={assets.user_icon} alt="user icon" />
+          Account
+        </Link>
             className="flex items-center gap-2 hover:text-gray-900 transition"
           >
             <Image src={assets.user_icon} alt="user icon" />

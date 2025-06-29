@@ -27,6 +27,11 @@ const OrderSummary = () => {
   };
 
   const createOrder = async () => {
+    console.log("Creating order...");
+    console.log("Selected address:", selectedAddress);
+    console.log("Cart count:", getCartCount());
+    console.log("Cart items:", cartItems);
+
     if (!selectedAddress) {
       toast.error("Please select a shipping address");
       return;
@@ -37,23 +42,37 @@ const OrderSummary = () => {
       return;
     }
 
+    const orderData = {
+      cartItems: cartItems,
+      totalAmount: getCartAmount() + Math.floor(getCartAmount() * 0.02),
+      shippingAddress: selectedAddress,
+    };
+
+    console.log("Order data:", orderData);
+
     try {
       const response = await fetch("/api/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          cartItems: cartItems,
-          totalAmount: getCartAmount() + Math.floor(getCartAmount() * 0.02),
-          shippingAddress: selectedAddress,
-        }),
+        body: JSON.stringify(orderData),
       });
 
+      console.log("Response status:", response.status);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Response error:", errorText);
+        toast.error(`Server error: ${response.status}`);
+        return;
+      }
+
       const data = await response.json();
+      console.log("Response data:", data);
 
       if (data.success) {
-        toast.success("Order placed successfully!");
+        toast.success(data.message || "Order placed successfully!");
         // Clear cart and redirect
         setCartItems({});
         router.push("/order-placed");
@@ -62,7 +81,7 @@ const OrderSummary = () => {
       }
     } catch (error) {
       console.error("Error placing order:", error);
-      toast.error("An error occurred while placing the order");
+      toast.error("Network error occurred while placing the order");
     }
   };
 

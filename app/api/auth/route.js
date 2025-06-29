@@ -2,6 +2,12 @@ import { NextResponse } from "next/server";
 
 export async function GET(request) {
   try {
+    console.log("CLERK_SECRET_KEY present:", !!process.env.CLERK_SECRET_KEY);
+    console.log(
+      "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY present:",
+      !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    );
+
     // Check if Clerk is configured
     if (
       !process.env.CLERK_SECRET_KEY ||

@@ -1,9 +1,19 @@
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
 
 // GET cart items
 export async function GET(request) {
   try {
+    if (!process.env.CLERK_SECRET_KEY) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Authentication not configured",
+        },
+        { status: 503 },
+      );
+    }
+
+    const { auth } = await import("@clerk/nextjs/server");
     const { userId } = await auth();
 
     if (!userId) {
@@ -36,6 +46,17 @@ export async function GET(request) {
 // POST add to cart
 export async function POST(request) {
   try {
+    if (!process.env.CLERK_SECRET_KEY) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Authentication not configured",
+        },
+        { status: 503 },
+      );
+    }
+
+    const { auth } = await import("@clerk/nextjs/server");
     const { userId } = await auth();
 
     if (!userId) {

@@ -39,11 +39,14 @@ export async function GET(request) {
       message: "User authenticated successfully",
     });
   } catch (error) {
+    console.error("Clerk auth error:", error.message);
+    console.error("Error stack:", error.stack);
     return NextResponse.json(
       {
         success: false,
         message:
           "Authentication service unavailable - Please configure Clerk authentication",
+        error: error.message,
       },
       { status: 503 },
     );

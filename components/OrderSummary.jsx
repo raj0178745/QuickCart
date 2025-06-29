@@ -19,6 +19,10 @@ const OrderSummary = () => {
 
   const fetchUserAddresses = async () => {
     setUserAddresses(addressDummyData);
+    // Auto-select first address if available
+    if (addressDummyData.length > 0 && !selectedAddress) {
+      setSelectedAddress(addressDummyData[0]);
+    }
   };
 
   const handleAddressSelect = (address) => {

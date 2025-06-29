@@ -3,12 +3,29 @@ import React from "react";
 import { assets, CartIcon } from "@/assets/assets";
 import Link from "next/link";
 import { useAppContext } from "@/context/AppContext";
-import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 
 const Navbar = () => {
   const { isSeller, router, getCartCount } = useAppContext();
-  const { isSignedIn, user } = useUser();
+
+  // Safely import Clerk hooks
+  let isSignedIn = false;
+  let UserButton = null;
+  let SignInButton = null;
+
+  try {
+    const {
+      useUser,
+      SignInButton: ClerkSignInButton,
+      UserButton: ClerkUserButton,
+    } = require("@clerk/nextjs");
+    const { isSignedIn: clerkSignedIn } = useUser();
+    isSignedIn = clerkSignedIn;
+    UserButton = ClerkUserButton;
+    SignInButton = ClerkSignInButton;
+  } catch (error) {
+    console.log("Clerk not configured - authentication features disabled");
+  }
 
   return (
     <nav className="flex items-center justify-between px-6 md:px-16 lg:px-32 py-3 border-b border-gray-300 text-gray-700">
@@ -59,23 +76,35 @@ const Navbar = () => {
         </button>
 
         {/* Authentication */}
-        {isSignedIn ? (
-          <UserButton
-            appearance={{
-              elements: {
-                avatarBox: "w-8 h-8",
-              },
-            }}
-            userProfileMode="modal"
-          />
+        {UserButton && SignInButton ? (
+          isSignedIn ? (
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "w-8 h-8",
+                },
+              }}
+              userProfileMode="modal"
+            />
+          ) : (
+            <div className="flex items-center gap-2">
+              <SignInButton mode="modal">
+                <button className="flex items-center gap-2 hover:text-gray-900 transition">
+                  <Image src={assets.user_icon} alt="user icon" />
+                  Sign In
+                </button>
+              </SignInButton>
+            </div>
+          )
         ) : (
           <div className="flex items-center gap-2">
-            <SignInButton mode="modal">
-              <button className="flex items-center gap-2 hover:text-gray-900 transition">
-                <Image src={assets.user_icon} alt="user icon" />
-                Sign In
-              </button>
-            </SignInButton>
+            <Link
+              href="/login"
+              className="flex items-center gap-2 hover:text-gray-900 transition"
+            >
+              <Image src={assets.user_icon} alt="user icon" />
+              Account
+            </Link>
           </div>
         )}
       </ul>
@@ -104,22 +133,32 @@ const Navbar = () => {
         )}
 
         {/* Mobile Authentication */}
-        {isSignedIn ? (
-          <UserButton
-            appearance={{
-              elements: {
-                avatarBox: "w-8 h-8",
-              },
-            }}
-            userProfileMode="modal"
-          />
+        {UserButton && SignInButton ? (
+          isSignedIn ? (
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "w-8 h-8",
+                },
+              }}
+              userProfileMode="modal"
+            />
+          ) : (
+            <SignInButton mode="modal">
+              <button className="flex items-center gap-2 hover:text-gray-900 transition">
+                <Image src={assets.user_icon} alt="user icon" />
+                Sign In
+              </button>
+            </SignInButton>
+          )
         ) : (
-          <SignInButton mode="modal">
-            <button className="flex items-center gap-2 hover:text-gray-900 transition">
-              <Image src={assets.user_icon} alt="user icon" />
-              Sign In
-            </button>
-          </SignInButton>
+          <Link
+            href="/login"
+            className="flex items-center gap-2 hover:text-gray-900 transition"
+          >
+            <Image src={assets.user_icon} alt="user icon" />
+            Account
+          </Link>
         )}
       </div>
     </nav>

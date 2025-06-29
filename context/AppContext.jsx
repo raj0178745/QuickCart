@@ -38,10 +38,15 @@ export const AppContextProvider = (props) => {
   const fetchUserData = async () => {
     try {
       const response = await fetch("/api/auth");
-      const data = await response.json();
-      if (data.success) {
-        setUserData({ userId: data.userId });
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setUserData({ userId: data.userId });
+        } else {
+          setUserData(false);
+        }
       } else {
+        // If auth fails (e.g., Clerk not configured), just set to false
         setUserData(false);
       }
     } catch (error) {

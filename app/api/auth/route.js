@@ -2,12 +2,6 @@ import { NextResponse } from "next/server";
 
 export async function GET(request) {
   try {
-    console.log("CLERK_SECRET_KEY present:", !!process.env.CLERK_SECRET_KEY);
-    console.log(
-      "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY present:",
-      !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
-    );
-
     // Check if Clerk is configured
     if (
       !process.env.CLERK_SECRET_KEY ||
@@ -39,14 +33,11 @@ export async function GET(request) {
       message: "User authenticated successfully",
     });
   } catch (error) {
-    console.error("Clerk auth error:", error.message);
-    console.error("Error stack:", error.stack);
     return NextResponse.json(
       {
         success: false,
         message:
           "Authentication service unavailable - Please configure Clerk authentication",
-        error: error.message,
       },
       { status: 503 },
     );

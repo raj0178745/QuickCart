@@ -31,10 +31,10 @@ const Navbar = () => {
         </Link>
 
         {isSeller && (
-          <button onClick={() => router.push('/seller')} className="text-xs border px-4 py-1.5 rounded-full">
-            Seller Dashboard
-          </button>
-        )}
+          <button
+            onClick={() => router.push("/seller")}
+            className="text-xs border px-4 py-1.5 rounded-full"
+          >
             Seller Dashboard
           </button>
         )}
@@ -57,12 +57,13 @@ const Navbar = () => {
         </button>
 
         {/* Account Link */}
-        <div className="flex items-center gap-2">
-          <Link href="/account" className="flex items-center gap-2 hover:text-gray-900 transition">
-            <Image src={assets.user_icon} alt="user icon" />
-            Account
-          </Link>
-        </div>
+        <Link
+          href="/account"
+          className="flex items-center gap-2 hover:text-gray-900 transition"
+        >
+          <Image src={assets.user_icon} alt="user icon" />
+          Account
+        </Link>
       </ul>
 
       <div className="flex items-center md:hidden gap-3">
@@ -80,22 +81,22 @@ const Navbar = () => {
         </button>
 
         {isSeller && (
-          <button onClick={() => router.push('/seller')} className="text-xs border px-4 py-1.5 rounded-full">
+          <button
+            onClick={() => router.push("/seller")}
+            className="text-xs border px-4 py-1.5 rounded-full"
+          >
             Seller Dashboard
           </button>
         )}
 
         {/* Mobile Account Link */}
-        <Link href="/account" className="flex items-center gap-2 hover:text-gray-900 transition">
+        <Link
+          href="/account"
+          className="flex items-center gap-2 hover:text-gray-900 transition"
+        >
           <Image src={assets.user_icon} alt="user icon" />
           Account
         </Link>
-            className="flex items-center gap-2 hover:text-gray-900 transition"
-          >
-            <Image src={assets.user_icon} alt="user icon" />
-            Account
-          </Link>
-        )}
       </div>
     </nav>
   );

@@ -1,10 +1,11 @@
 import React from "react";
 import { assets } from "@/assets/assets";
+import { toast } from "react-hot-toast";
 import Image from "next/image";
 import { useAppContext } from "@/context/AppContext";
 
 const ProductCard = ({ product }) => {
-  const { currency, router } = useAppContext();
+  const { currency, router, addToCart } = useAppContext();
 
   return (
     <div
@@ -56,8 +57,15 @@ const ProductCard = ({ product }) => {
           {currency}
           {product.offerPrice}
         </p>
-        <button className=" max-sm:hidden px-4 py-1.5 text-gray-500 border border-gray-500/20 rounded-full text-xs hover:bg-slate-50 transition">
-          Buy now
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            addToCart(product._id);
+            toast.success("Product added to cart!");
+          }}
+          className="max-sm:hidden px-4 py-1.5 text-gray-500 border border-gray-500/20 rounded-full text-xs hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200 transition"
+        >
+          Add to Cart
         </button>
       </div>
     </div>

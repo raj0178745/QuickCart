@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { assets } from "@/assets/assets";
-import { useUser } from "@clerk/nextjs";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
 
@@ -14,7 +13,8 @@ const AddProduct = () => {
   const [offerPrice, setOfferPrice] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { isSignedIn, user } = useUser();
+  // For demo purposes, assume user is signed in
+  const isSignedIn = true;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,20 +84,7 @@ const AddProduct = () => {
     }
   };
 
-  if (!isSignedIn) {
-    return (
-      <div className="flex-1 min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-medium text-gray-800 mb-4">
-            Authentication Required
-          </h2>
-          <p className="text-gray-600">
-            Please sign in to access the seller dashboard.
-          </p>
-        </div>
-      </div>
-    );
-  }
+  // Demo mode - seller dashboard is always accessible
 
   return (
     <div className="flex-1 min-h-screen flex flex-col justify-between">
